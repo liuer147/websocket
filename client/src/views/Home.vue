@@ -35,7 +35,7 @@ export default {
     const name = ref("");
 
 
-    const { numRef, roomRef, msgList, isEnter, initWs, isOnline } = useInitEvents(ws)
+    const { numRef, roomRef, msgList, isEnter, initWs, isOnline } = useInitEvents(ws, name)
     function handleSubmit() {
       ws.value.send(
         JSON.stringify({
@@ -53,17 +53,6 @@ export default {
       }
       initWs()
       isEnter.value = true;
-
-      ws.value.onopen = function () {
-        this.send(
-          JSON.stringify({
-            type: "enter",
-            data: name.value,
-            room: roomRef.value,
-          })
-        );
-        isOnline.value = true
-      }
     }
     return {
       msgList,
