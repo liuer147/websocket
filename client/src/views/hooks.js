@@ -5,7 +5,7 @@ export default function useInitEvents(ws, name) {
   const msgList = reactive([]);
   const numRef = ref(0);
   const roomRef = ref("");
-  // const timer = ref(null);
+  const timer = ref(null);
   const isOnline = ref(true);
   function onClose() {
     // 当服务段主动断开连接时，我们客户端也需要断开连接
@@ -28,7 +28,7 @@ export default function useInitEvents(ws, name) {
     // console.log('data: ', data)
     const { msg, num, room, type } = JSON.parse(data);
     if (type === "heartbeat" && msg === "ping") {
-      // checkServer(); // 每当收到ping消息时，进行服务检查
+      checkServer(); // 每当收到ping消息时，进行服务检查
       this.send(
         JSON.stringify({
           type: "heartbeat",
@@ -59,15 +59,15 @@ export default function useInitEvents(ws, name) {
     ws.value.onmessage = onMessage;
     ws.value.onerror = onError;
   }
-  // function checkServer() {
-  //   // 心跳检查时，我们客户端需要进行服务检测
-  //   clearTimeout(timer.value);
-  //   timer.value = setTimeout(() => {
-  //     onClose(); // 此处貌似不能是close()，，断线重连，貌似不需要进行close
-  //     isOnline.value = false;
-  //     initWs();
-  //   }, 1000 + 500);
-  // }
+  function checkServer() {
+    // 心跳检查时，我们客户端需要进行服务检测
+    clearTimeout(timer.value);
+    timer.value = setTimeout(() => {
+      onClose(); // 此处貌似不能是close()，，断线重连，貌似不需要进行close
+      isOnline.value = false;
+      initWs();
+    }, 1000 + 500);
+  }
   return {
     isEnter,
     msgList,
