@@ -40,7 +40,7 @@ export default {
       ws.value.send(
         JSON.stringify({
           type: "message",
-          data: msg.value,
+          msg: msg.value,
         })
       );
       msg.value = "";

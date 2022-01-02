@@ -30,6 +30,10 @@ function existsValue(key) {
     return client.exists(key)
 }
 
+function deleteValue(key) {
+    return client.del(key)
+}
+
 module.exports = {
-    setValue, getValue, getHValue, existsValue
+    setValue, getValue, getHValue, existsValue, deleteValue
 }
