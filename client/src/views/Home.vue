@@ -26,16 +26,14 @@
 
 <script>
 import { ref } from "vue";
-import useInitEvents from './hooks'
+import useWebsocket from "./useWebsocket";
 export default {
   name: "Home",
   setup() {
-    const ws = ref(null) //
+    const ws = ref(null); //
     const msg = ref("");
-    const name = ref("");
-
-
-    const { numRef, roomRef, msgList, isEnter, initWs, isOnline } = useInitEvents(ws, name)
+    const { numRef, roomRef, msgList, isEnter, initWs, isOnline, name } =
+      useWebsocket(ws);
     function handleSubmit() {
       ws.value.send(
         JSON.stringify({
@@ -51,7 +49,7 @@ export default {
         alert("数据不能为空");
         return;
       }
-      initWs()
+      initWs();
       isEnter.value = true;
     }
     return {
@@ -63,7 +61,7 @@ export default {
       name,
       roomRef,
       numRef,
-      isOnline
+      isOnline,
     };
   },
 };

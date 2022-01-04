@@ -1,12 +1,13 @@
 import { reactive, ref } from "vue";
 
-export default function useInitEvents(ws, name) {
+export default function useWebsocket(ws) {
   const isEnter = ref(false);
   const msgList = reactive([]);
   const numRef = ref(0);
   const roomRef = ref("");
   const timer = ref(null);
   const isOnline = ref(true);
+  const name = ref("");
   function onClose() {
     // 当服务段主动断开连接时，我们客户端也需要断开连接
     console.log("断开连接", ws.value.readyState);
@@ -74,6 +75,6 @@ export default function useInitEvents(ws, name) {
     numRef,
     roomRef,
     initWs,
-    isOnline,
+    isOnline, name
   };
 }
